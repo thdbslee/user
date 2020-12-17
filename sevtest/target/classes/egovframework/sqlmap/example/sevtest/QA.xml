@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="QA">
+	<typeAlias  alias="QAVO" type="egovframework.example.sevtest.qa.QAVO"/>
+	<typeAlias  alias="answer" type="egovframework.example.sevtest.qa.QA_ANSWERVO"/>
+	
+<select id="qaDAO.qaList" parameterClass="QAVO" resultClass="QAVO">
+/*qaDAO.qaList*/
+	SELECT 
+	INX
+	,TITLE 
+	,CONTENT
+	,INSERT_DATE
+	,ID 
+	,NAME
+	,ANSWER
+	FROM QA 
+	GROUP BY DATE_FORMAT(INSERT_DATE, '%Y-%m-%d %h:%i:%s')
+	ORDER BY  INSERT_DATE DESC 
+</select>
+<update id="qaDAO.qaInsert" parameterClass="QAVO">
+/*qaDAO.qaInsert*/
+	INSERT INTO QA(
+		ID
+		,NAME
+		,TITLE
+		,CONTENT
+		,INSERT_DATE
+	)VALUES(
+		#ID#
+		,#NAME#
+		,#TITLE#
+		,#CONTENT#
+		,DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s')
+	)
+</update>
+<update id="qaDAO.qaUpdate" parameterClass="QAVO">
+/*qaDAO.qaUpdate*/
+	UPDATE
+	QA SET 
+	TITLE = #TITLE#
+	,CONTENT = #CONTENT#
+	,INSERT_DATE = DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s')
+	WHERE INX = #INX#
+
+</update>
+<select id="qaDAO.qaSelect" parameterClass="QAVO" resultClass="QAVO">
+/*qaDAO.qaSelect*/
+	SELECT 
+	INX
+	,TITLE
+	,CONTENT
+	,INSERT_DATE
+	,ID
+	FROM QA 
+	WHERE INX = #INX#
+</select>
+<update id="qaDAO.qaDelete" parameterClass="QAVO">
+/*qaDAO.qaDelete*/
+	DELETE FROM QA 
+	WHERE INX 
+	<iterate property="INXS" prepend="IN" open="(" close=")" conjunction=",">
+		#INXS[]#
+	</iterate>
+</update>
+<!-- 답변 -->
+<select id="qaDAO.answerList" parameterClass="answer" resultClass="answer">
+/*qaDAO.answerList*/
+	SELECT A.ID , A.CONTENT, A.QAINX, A.INX AS ANSWER_INX
+	,B.INX
+	FROM QA_ANSWER A
+	LEFT JOIN QA B 
+	ON A.QAINX = B.INX
+	WHERE B.INX = #INX#
+
+</select>
+<update id="qaDAO.answerInsert" parameterClass="answer">
+/*qaDAO.answerInsert*/
+	INSERT INTO QA_ANSWER(
+		ID
+		,CONTENT
+		,QAINX
+	)VALUES(
+		#ID#
+		,#CONTENT#
+		,#QAINX#
+	)
+</update>
+<update id="qaDAO.qaAnswerUpdate" parameterClass="QAVO">
+	/*qaDAO.qaAnswerUpdate*/
+	UPDATE QA 
+	SET 
+	ANSWER = 'Y' 
+	WHERE INX = #INX#
+
+</update>
+<delete id="qaDAO.answerDelete" parameterClass="QAVO">
+	/*qaDAO.answerDelete*/
+	DELETE FROM QA_ANSWER 
+	WHERE QAINX 
+	<iterate property="INXS" prepend="IN" open="(" close=")" conjunction=",">
+		#INXS[]#
+	</iterate>
+</delete>
+</sqlMap>

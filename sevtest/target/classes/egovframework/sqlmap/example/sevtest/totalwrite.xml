@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="totalWrite">
+	<typeAlias  alias="totalVO" type="egovframework.example.sevtest.totalwrite.totalVO"/>
+	
+<select id="totalDAO.totalWriteList" parameterClass="totalVO" resultClass="totalVO">
+/*totalDAO.totalWriteList*/
+	<![CDATA[
+	SELECT B.INX,B.TITLE,B.CONTENT,B.MENU,B.ID
+	,DATE(B.DT)AS DT,B.RNUM
+	FROM(
+		SELECT A.INX ,A.TITLE,A.CONTENT , A.ID,A.MENU, 
+		A.DT
+		,@ROWNUM := @ROWNUM +1 AS RNUM
+		FROM 
+		(
+		  SELECT INX,TITLE,ID,BOARD_DATE AS DT, '자유게시판' AS MENU , CONTENT
+		   FROM BOARD
+		  WHERE ID=#ID#
+		  UNION ALL 
+		  SELECT INX,TITLE,ID,INSERT_DATE AS DT, 'Q&A게시판' AS MENU , CONTENT
+		   FROM QA WHERE ID=#ID#
+		  UNION ALL
+		  SELECT INX,TITLE,ID,INSERT_DATE AS DT,'등업게시판' AS MENU ,CONTENT
+		  FROM LEVEL WHERE ID=#ID#
+		  UNION ALL
+		  SELECT INX,TITLE,ID,INSERT_DATE AS DT, '공지사항' AS MENU,CONTENT
+		  FROM NOTICE
+		  WHERE ID = #ID#
+		  ) A
+		  )B
+		  ,(SELECT @ROWNUM :=0) RNUM
+	]]>
+	<dynamic prepend="WHERE">
+		<isNotEmpty property="searchText" prepend="AND">
+			<isEqual property="searchType" compareValue ="2">
+				B.TITLE LIKE CONCAT('%',#searchText#,'%')
+			</isEqual>
+		</isNotEmpty>
+	</dynamic>	  
+	ORDER BY DT DESC
+
+</select>
+<select id="totalDAO.totalSelect" parameterClass="totalVO" resultClass="totalVO">
+/*totalDAO.totalSelect*/
+	<![CDATA[
+	SELECT B.INX,B.TITLE,B.CONTENT,B.MENU,B.ID
+	,DATE(B.DT)AS DT,B.RNUM
+	FROM(
+		SELECT A.INX ,A.TITLE,A.CONTENT , A.ID,A.MENU, 
+		A.DT
+		,@ROWNUM := @ROWNUM +1 AS RNUM
+		FROM 
+		(
+		  SELECT INX,TITLE,ID,BOARD_DATE AS DT, '자유게시판' AS MENU , CONTENT
+		   FROM BOARD
+		  WHERE ID='SY'
+		  UNION ALL 
+		  SELECT INX,TITLE,ID,INSERT_DATE AS DT, 'Q&A게시판' AS MENU , CONTENT
+		   FROM QA WHERE ID='SY'
+		  UNION ALL
+		  SELECT INX,TITLE,ID,INSERT_DATE AS DT,'등업게시판' AS MENU ,CONTENT
+		  FROM LEVEL WHERE ID='SY'
+		  UNION ALL
+		  SELECT INX,TITLE,ID,INSERT_DATE AS DT, '공지사항' AS MENU,CONTENT
+		  FROM NOTICE
+		  WHERE ID = 'SY'
+		  ) A
+		  )B
+		  ,(SELECT @ROWNUM :=0) RNUM
+		  WHERE RNUM =#RNUM#
+	]]>
+</select>
+<delete id="totalDAO.totalDelete" parameterClass="totalVO">
+/*totalDAO.totalDelete*/
+</delete>
+</sqlMap>
