@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="board">
+	    <typeAlias alias="boardVO" type="egovframework.example.sevtest.board.boardVO"/>
+		<typeAlias alias="sevVO" type="egovframework.example.sevtest.sevVO"/>
+		<typeAlias alias="cVO" type="egovframework.example.sevtest.board.commentVO"/>
+		<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+<select id="boardDAO.boardList" parameterClass="boardVO" resultClass="boardVO">
+/*boardDAO.boardList*/
+	SELECT INX, TITLE, CONTENT,ID,INFO,NOTICE_DATE
+	FROM NOTICE
+	GROUP BY DATE_FORMAT(NOTICE_DATE,'%Y-%m-%d %h:%i:%s')
+	ORDER BY NOTICE_DATE DESC
+</select>
+<select id="boardDAO.boardSelect" parameterClass="boardVO" resultClass="boardVO">
+/*boardDAO.boardSelect*/
+	SELECT * FROM NOTICE 
+	WHERE INX =#INX#
+</select>
+<!-- 조회수 증가 -->
+<update id="boardDAO.boardInfoUpdate" parameterClass="boardVO">
+/*boardDAO.boardInfoUpdate*/
+	UPDATE NOTICE SET 
+	INFO = INFO + 1 
+	WHERE INX = #INX#
+</update>
+<update id="boardDAO.boardInsert" parameterClass="boardVO">
+/*boardDAO.boardInsert*/
+	INSERT INTO NOTICE(
+		TITLE
+		,CONTENT
+		,ID
+		,NOTICE_DATE
+		,IMG_1
+	)VALUES(
+		#TITLE#
+		,#CONTENT#
+		,#ID#
+		,DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s')
+		,#IMG_1#
+	)
+</update>
+<update id="boardDAO.boardDelete" parameterClass="boardVO">
+	/*boardDAO.boardDelete*/
+		DELETE FROM NOTICE 
+		WHERE INX
+		<iterate prepend="IN" open="(" close=")" conjunction ="," property="INXS">
+			#INXS[]#
+		</iterate>
+</update>
+<delete id="boardDAO.boardComDelete" parameterClass="boardVO">
+/*boardDAO.boardComDelete*/
+	DELETE FROM COMM 
+	WHERE B_INX 
+	<iterate prepend="IN" open="(" close=")" conjunction="," property="INXS">
+		#INXS[]#
+	</iterate>
+</delete>
+<update id="boardDAO.boardUpdate" parameterClass="boardVO">
+/*boardDAO.boardUpdate*/
+	UPDATE NOTICE 
+	SET 
+	TITLE = #TITLE#
+	,CONTENT = #CONTENT#
+	,NOTICE_DATE = DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s')
+	WHERE INX =#INX#
+	
+</update>
+<!--댓글관리-->
+<select id="boardDAO.commentList" parameterClass="cVO" resultClass="egovMap">
+/*boardDAO.commentList*/
+	
+	SELECT
+ 	A.ID,A.COMMENT,A.B_INX,A.INX ,A.LOGIN_DATE
+	FROM COMM A
+	LEFT JOIN NOTICE B
+	ON A.B_INX = B.INX
+	WHERE B.INX=#INX#
+	ORDER BY ID DESC
+	LIMIT #recordCountPerPage#  OFFSET #firstIndex#		
+</select>
+<update id="boardDAO.commentInsert" parameterClass="cVO">
+/*boardDAO.commentInsert*/
+	INSERT INTO COMM(
+		COMMENT
+		,ID
+		,B_INX
+		,LOGIN_DATE
+	)VALUES(
+		#COMMENT#
+		,#ID#
+		,#B_INX#
+		,DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+	)
+</update>
+<select id="boardDAO.commenTotCnt" parameterClass="cVO" resultClass="java.lang.Integer">
+/*boardDAO.commenTotCnt*/
+		SELECT COUNT(*)	FROM COMM A
+	LEFT JOIN NOTICE B
+	ON A.B_INX = B.INX
+	WHERE B.INX=#INX#
+</select>
+<update id="boardDAO.commentDelete" parameterClass="cVO">
+/*boardDAO.commentDelete*/
+	DELETE FROM COMM
+	WHERE INX = #INX# 
+</update>
+
+</sqlMap>

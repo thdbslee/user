@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="level">
+	    <typeAlias alias="levelVO" type="egovframework.example.sevtest.level.levelVO"/>
+		<typeAlias  alias="sevVO" type="egovframework.example.sevtest.sevVO"/>
+<select id="levelDAO.levelList" parameterClass="levelVO" resultClass="levelVO">
+/*levelDAO.levelList*/
+	SELECT 
+	INX 
+	,ID
+	,TITLE
+	,CONTENT
+	,INSERT_DATE
+
+	FROM LEVEL 
+	GROUP BY DATE_FORMAT(INSERT_DATE,'%Y-%m-%d %h:%i %s')
+	ORDER BY INSERT_DATE DESC
+</select>
+<select id="levelDAO.levelSelect" parameterClass="levelVO" resultClass="levelVO">
+/*levelDAO.levelSelect*/
+	SELECT * FROM LEVEL 
+	WHERE INX = #INX#
+</select>
+<update id="levelDAO.levelUpdate" parameterClass="levelVO">
+/*levelDAO.levelUpdate*/
+	UPDATE LEVEL 
+	SET
+	TITLE = #TITLE#
+	,CONTENT = #CONTENT#
+	,INSERT_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d %h:%i:%s')
+	WHERE INX = #INX#
+</update>
+<update id="levelDAO.levelInsert" parameterClass="levelVO">
+/*levelDAO.levelInsert*/
+	INSERT INTO LEVEL(
+		TITLE
+		,CONTENT
+		,INSERT_DATE
+		,ID
+		
+	)VALUES(
+		#TITLE#
+		,#CONTENT#
+		,DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s')
+		,#ID#
+		
+	)
+</update>
+<update id="levelDAO.levelDelete" parameterClass="levelVO">
+/*levelDAO.levelDelete*/
+	
+</update>
+<update id="sevDAO.sevUpdateLev" parameterClass="sevVO">
+	UPDATE SEV 
+	SET
+	LEV_COUNT = LEV_COUNT +1 
+	WHERE ID = #ID#
+</update>
+<select id="sevDAO.sevLevList" parameterClass="sevVO" resultClass="sevVO">
+/*sevDAO.sevLevList*/
+	SELECT ID
+	,CASE WHEN LEVEL='2' THEN '팀장'
+	WHEN LEVEL='3' THEN '팀원'
+	END LEVEL_NAME 
+	,LEVEL
+	,LEV_COUNT 
+	FROM SEV 
+	WHERE ID=#ID#
+</select>
+<update id="sevDAO.sevLevelUpgrade" parameterClass="sevVO">
+/*sevDAO.sevLevelUpgrade*/
+	UPDATE SEV
+	SET 
+	LEVEL ='2'
+	WHERE ID=#ID#
+</update>
+
+</sqlMap>

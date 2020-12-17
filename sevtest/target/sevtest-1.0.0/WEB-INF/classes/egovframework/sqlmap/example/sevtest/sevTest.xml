@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="sevTest">
+	<typeAlias  alias="sevVO" type="egovframework.example.sevtest.sevVO"/>
+	<select id="sevDAO.UserLogin" parameterClass="sevVO" resultClass="sevVO">
+    /*sevDAO.userLogin*/    
+			SELECT * FROM SEV WHERE ID=#ID# 
+			AND PASSWD=password(#PASSWD#)
+		
+	</select>
+	<update id="sevDAO.LoginDate" parameterClass="sevVO">
+	/*sevDAO.LoginDate*/
+		UPDATE SEV SET
+		LOGIN_DATE = DATE_FORMAT(now(),'%Y-%m-%d-%H:%i:%s')
+		WHERE ID =#ID#
+	</update>
+	<select id="sevDAO.userFailInfo" parameterClass="sevVO" resultClass="sevVO">
+			SELECT * FROM SEV	WHERE ID=#ID#
+	</select>
+	<update id="sevDAO.UserFailCountUpdate" parameterClass="sevVO">
+			UPDATE SEV SET 
+				FAIL_COUNT = FAIL_COUNT+1
+			WHERE ID = #ID#
+	</update>
+	<update id="sevDAO.UserLock" parameterClass="sevVO">
+			UPDATE SEV SET 
+				LOCK_YN ='Y'
+			WHERE ID = #ID#
+	</update>
+	<select id="sevDAO.idcount" parameterClass="sevVO" resultClass="java.lang.Integer">
+	/*sevDAO.idcount*/
+		SELECT COUNT(*) AS ID_COUNT FROM SEV
+		WHERE ID=#ID#
+	</select>
+	<update id="sevDAO.joinInsert" parameterClass="sevVO">
+	/*sevDAO.joinInsert*/
+		INSERT INTO SEV(
+			ID
+			,PASSWD
+			,AUTH_CODE
+			,NAME
+			,PHONE
+		)VALUES(
+			#ID#
+			,password(#PASSWD#)
+			,1
+			,#NAME#
+			,#PHONE#
+		)
+	</update>
+	<select id="sevDAO.sevList" parameterClass="sevVO" resultClass="sevVO">
+	/*sevDAO.sevList*/
+		SELECT 
+		INX,NAME
+		,CASE WHEN LEVEL = '0' THEN 'director'
+		WHEN LEVEL = '1' THEN 'manager' 
+		WHEN LEVEL = '2' THEN 'staff' 
+		END LEVEL_NAME
+		,ID
+		,PHONE
+		,PASSWD
+		,AGE
+		,STWORK
+		,AUTH_CODE
+		,LOCK_YN
+		,FAIL_COUNT
+		,LOGIN_DATE
+		FROM SEV
+		ORDER BY INX
+	</select>
+	<update id="sevDAO.sevInsert" parameterClass="sevVO">
+	/*sevDAO.sevInsert*/
+		INSERT INTO SEV(
+			NAME
+			,ID
+			,PASSWD
+			,LEVEL
+			,PHONE
+			,AGE
+			,STWORK
+			,AUTH_CODE
+		)VALUES(
+			#NAME#
+			,#ID#
+			,password(#PASSWD#)
+			,#LEVEL#
+			,#PHONE#
+			,#AGE#
+			,#STWORK#
+			,1
+		)
+	</update>
+	<select id="sevDAO.sevSelect" parameterClass="sevVO" resultClass="sevVO">
+	/*sevDAO.sevSelect*/
+		SELECT INX, NAME, LEVEL, PHONE, AGE, STWORK,LOCK_YN FROM SEV
+		WHERE INX = #INX# ORDER BY NAME
+	</select>
+	<update id="sevDAO.sevUpdate" parameterClass="sevVO">
+	/*sevDAO.sevUpdate*/
+		UPDATE SEV
+		SET 
+		NAME = #NAME#
+		,LEVEL = #LEVEL#
+		,PHONE = #PHONE#
+		,AGE = #AGE#
+		,STWORK = #STWORK#
+		,LOCK_YN = #LOCK_YN#
+		WHERE INX = #INX#
+	</update>
+	<update id="sevDAO.sevDelete" parameterClass="sevVO">
+	/*sevDAO.sevDelete*/
+		DELETE FROM SEV 
+		WHERE INX
+		<iterate prepend="IN" open="(" close=")" conjunction ="," property="INXS">
+			#INXS[]#
+		</iterate>
+	</update>
+	<!-- MyPage -->
+	<update id="sevDAO.userSettingUpdate" parameterClass="sevVO">
+	/*sevDAO.userSettingUpdate*/
+	 	UPDATE SEV 
+	 	SET 
+	 	NAME = #NAME#
+	 	,LEVEL = #LEVEL#
+	 	,PHONE = #PHONE#
+	 	WHERE ID = #ID#
+	
+	</update>
+</sqlMap>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="notice">
+	    <typeAlias alias="noticeVO" type="egovframework.example.sevtest.notice.noticeVO"/>
+
+<select id="noticeDAO.noticeList" parameterClass="noticeVO" resultClass="noticeVO">
+/*noticeDAO.noticeList*/
+	SELECT
+	INX , NAME, TITLE, CONTENT, IMG_1 ,INFO
+	,DATE_FORMAT(INSERT_DATE,'%Y-%m-%d')AS INSERT_DATE
+	FROM NOTICE
+</select>
+<select id="noticeDAO.noticeSelect" parameterClass="noticeVO" resultClass="noticeVO">
+/*noticeDAO.noticeSelect*/
+	SELECT INX, NAME, TITLE, CONTENT, IMG_1, INSERT_DATE
+	FROM NOTICE 
+	WHERE INX =#INX#
+</select>
+<update id="noticeDAO.noticeInsert" parameterClass="noticeVO">
+/*noticeDAO.noticeInsert*/
+	INSERT INTO NOTICE(
+		TITLE
+		,NAME
+		,CONTENT
+		,INSERT_DATE
+		,IMG_1
+		,ID
+	)VALUES(
+		#TITLE#
+		,#NAME#
+		,#CONTENT#
+		,NOW()
+		,#IMG_1#
+		,#ID#
+	)	
+</update>
+<update id="noticeDAO.noticeUpdate" parameterClass="noticeVO">
+/*noticeDAO.noticeUpdate*/
+	UPDATE NOTICE 
+	SET 
+	TITLE = #TITLE# 
+	,CONTENT = #CONTENT#
+	,INSERT_DATE = NOW()
+	,IMG_1 = #IMG_1#
+	WHERE INX = #INX#
+	
+</update>
+<update id="noticeDAO.noticeDelete" parameterClass="noticeVO">
+/*noticeDAO.noticeDelete*/
+	DELETE FROM NOTICE 
+	WHERE INX
+	<iterate prepend="IN" open="(" close=")" conjunction="," property="INXS">
+		#INXS[]#
+	</iterate>
+</update>
+<update id="noticeDAO.noticeInfoCount" parameterClass="noticeVO">
+/*noticeDAO.noticeInfoCount*/
+	UPDATE NOTICE SET
+		INFO = INFO +1
+	WHERE INX = #INX#
+</update>
+</sqlMap>
