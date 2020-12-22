@@ -52,7 +52,14 @@
                     						
                     							<c:forEach var="list" items="${list}">
                     								<tr>
+                    									<c:choose>
+                    									<c:when test="${loginvo.AUTH_CODE eq '9'}">
                     									<td><input type="checkbox" id="INX_CHK" name="INX_CHK" value="${list.INX}"></td>
+                    									</c:when>
+                    									<c:otherwise>
+                    										<td></td>
+                    									</c:otherwise>
+                    									</c:choose>
                     									<td style="cursor:pointer;" onclick='fn_click(${list.INX})'>${list.TITLE}</td>
                     									<td style="cursor:pointer;" onclick='fn_click(${list.INX})'>${list.NAME}</td>
                     									<td style="cursor:pointer;" onclick='fn_click(${list.INX})'>${list.INFO}</td>

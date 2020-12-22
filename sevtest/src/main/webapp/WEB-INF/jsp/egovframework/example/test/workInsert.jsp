@@ -40,7 +40,8 @@
 			</tr>-->
 			<tr>
 				<th>번호</th>
-				<td><input type="text" id="PHONE" name="PHONE"></td>
+				<td><input type="text" id="PHONE" name="PHONE"
+				onKeyup="this.value=this.value.replace(/[^0-9]/g,'')"></td>
 			</tr>
 			<tr>
 				<th>나이</th>

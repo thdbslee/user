@@ -32,11 +32,12 @@
 					<h4>문의 수정</h4>
 				<tr>
 					<th>ID</th>
-					<td>${loginvo.ID}</td>
+					<%-- <td>${loginvo.ID}</td> --%>
+					<td>${qavo.ID}</td>
 				</tr>
 				<tr>
 					<th>이름</th>
-					<td>${loginvo.NAME}</td>
+					<td>${qavo.NAME }</td>
 				</tr>
 				<tr>
 					<input type="hidden" id="INX" name="INX" value="${qavo.INX}">
@@ -45,7 +46,8 @@
 				</tr>	
 				<tr> 
 					<th>내용</th>
-					<td><textarea rows="5" cols="30" name="CONTENT">${qavo.CONTENT}</textarea>
+					<td><textarea rows="5" cols="30" name="CONTENT" id="CONTENT" onkeyup="fn_content()" onselect="fn_content()" onclick="fn_content()">${qavo.CONTENT}</textarea>
+					</br><span id="cnt"></span>
 				</tr>
 	
 				</tbody>

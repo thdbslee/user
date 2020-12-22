@@ -31,9 +31,12 @@
 						</td>
 					</tr>
 				</table>
-			
+	<div class="card mb-4">
+          <div class="card-header">
+			<div class="card-body" >
+             <div class="table-responsive" >
 
-			<table style="margin-top: 40px;">
+			  <table class="table table-bordered" id="dataTable" >
 				<thead>
 				<tr>
          		<th>게시판메뉴</th>
@@ -54,8 +57,12 @@
 	    			</c:forEach>
 	    		</tbody>	
 			</table>
+			</div>
+			</div>
+			</div>
+			</div>
 			</form>
-
+			
 
 			<div class="btArea3">
 				<!-- <a href="javascript:addUser()" class="bottomBtn btGray">사용자 추가</a>
@@ -67,6 +74,7 @@
 				
 	</div>
 </div>     
+
 </html>
 
 

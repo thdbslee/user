@@ -5,9 +5,6 @@
 <%@ taglib prefix="spring"	uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn"		uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
- <%
-//  	request.setCharacterEncoding("utf-8");
- %>
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -19,9 +16,6 @@
  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
  <link type="text/css" rel="stylesheet" href="/css/egovframework/sample.css"/>
 <script type="text/javascript" src="/js/board/boardEdit.js" ></script>
-
-
-
 </head>
 <title>게시판 수정</title>
 <body>
@@ -37,7 +31,8 @@
 				</tr>	
 				<tr> 
 					<th>내용</th>
-					<td><textarea rows="5" cols="30" name="CONTENT">${boardvo.CONTENT}</textarea>
+					<td><textarea rows="5" cols="30" name="CONTENT" id="CONTENT" onkeyup="fn_content()"onselect="fn_content()" onclick="fn_content()">${boardvo.CONTENT}</textarea>
+					<br/><span id="cnt">(0 /200자)</span>
 				</tr>
 				<tr>
 					<th>첨부파일</th>

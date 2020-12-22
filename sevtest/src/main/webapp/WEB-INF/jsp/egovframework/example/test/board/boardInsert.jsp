@@ -39,7 +39,8 @@
 				</tr>	
 				<tr> 
 					<th>내용</th>
-					<td><textarea rows="5" cols="30" name="CONTENT" id="CONTENT"></textarea>
+					<td><textarea rows="5" cols="30" name="CONTENT" id="CONTENT" onkeyup="fn_content()"onselect="fn_content()" onclick="fn_content()"></textarea>
+					<br/><span id="cnt">(0 / 200자)</span>
 				</tr>
 				<tr>
 					<th>첨부파일</th>

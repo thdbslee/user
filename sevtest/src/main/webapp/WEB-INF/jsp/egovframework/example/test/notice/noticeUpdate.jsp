@@ -40,7 +40,8 @@
 	                                  		<tr>
 	                                  			<th>내용</th>
 	                                  			<td colspan="5">
-	                                    			<textarea rows="20" cols="30" style="width:99%;" id="CONTENT" name="CONTENT" >${noticevo.CONTENT}</textarea>
+	                                    			<textarea rows="20" cols="30" style="width:99%;" id="CONTENT" name="CONTENT" onclick="fn_content()" onselect="fn_content()" onkeyup="fn_content()">${noticevo.CONTENT}</textarea>
+	                                    			</br><span id="cnt"></span>
 	                                    		</td>
 	                                  		</tr>
 	                                  		<tr>

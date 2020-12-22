@@ -40,7 +40,7 @@
                                     </div>
                                       	<thead>
                                       		<tr>
-                                      			<th style="width:10%;"><input type="checkbox" id="all_check" name="all_check"></th>
+                                      			<th style="width:10%;"></th>
                                       			<th>title</th>
                                       			<th style="width:10%">아이디</th>
                                       			<th>이름</th>

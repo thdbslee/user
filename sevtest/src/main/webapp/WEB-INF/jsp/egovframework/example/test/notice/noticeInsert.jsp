@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-   <script type="text/javascript" src="/js/notice/notice.js" ></script> 
+   <script type="text/javascript" src="/js/notice/noticeInsert.js" ></script> 
   <script type="text/javascript" src="/js/egovframework/EgovMultiFile.js" ></script>
 
         <title>공지사항등록</title>
@@ -45,7 +45,8 @@
 	                                    	<tr>
 	                                    		<th>내용</th>
 	                                    		<td colspan="5">
-	                                    			<textarea rows="20" cols="30" style="width:99%;" id="CONTENT" name="CONTENT"></textarea>
+	                                    			<textarea rows="20" cols="30" style="width:99%;" id="CONTENT" name="CONTENT" onclick="fn_content" onselect="fn_content()" onkeyup="fn_content()"></textarea>
+	                                    			</br><span id="cnt"></span>
 	                                    		</td>
 	                                    	</tr>
 	                                    	<tr>
@@ -106,38 +107,5 @@
 }
 
 </style>
-<script>
-	function fn_add(){
-		if(!$("#TITLE").val()){
-			alert("제목을 입력하세요");
-			return;
-		}
-		if(!$("#CONTENT").val()){
-			alert("내용을 입력하세요");
-			return;
-		}
-		var formData = new FormData($("#frm")[0]);
-		$.ajax({
-			contentType:"application/x-www-form-urlencoded;charset=UTF-8",
-			type:"POST",
-			url:"/noticeInsert_ok.do",      
-			data: formData,
-			processDate: false,
-			async       : false,
-			traditional : true,
-			processData: false,
-			contentType: false,
-			success:function(success){
-				if(success=="true"){
-					alert("공지사항 등록완료.");
-					location.href="/notice.do";
-				}else{
-					alert("등록실패.");	
-				}
-			},error:function(indx){
-				alert("에러");
-			}
-		});
-	}
-</script>
+
 

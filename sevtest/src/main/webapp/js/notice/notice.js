@@ -2,6 +2,7 @@ function fn_onLoad(){
 	fn_setDefault();
 }
 function fn_setDefault(){
+
 }
 function fn_click(INX){
 	location.href="/notceDetail.do?INX="+INX;

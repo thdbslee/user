@@ -35,11 +35,11 @@
 				<tr>
 					
 					<th scope="row">제목</th>
-					<td><input type="text" id="TITLE" name="TITLE" value="${qavo.TITLE}"></td>
+					<td><input type="hidden" id="TITLE" name="TITLE" value="${qavo.TITLE}">${qavo.TITLE}</td>
 				</tr>	
 				<tr> 
 					<th>문의내용</th>
-					<td><textarea rows="5" cols="30" name="CONTENT">${qavo.CONTENT}</textarea>
+					<td><textarea rows="5" cols="30" name="CONTENT" readOnly>${qavo.CONTENT}</textarea>
 				</tr>
 	
 				</tbody>
@@ -68,8 +68,8 @@
 						<th>아이디</th>
 						<td><input type="hidden" id="ID" name="ID" value="${loginvo.ID}">${loginvo.ID}</td>
 						<th></th>
-						<td><textarea rows="3" cols="30" name="CONTENT" id="CONTENT">
-						</textarea><a class="button" href="javascript:fn_add();">등록</a>
+						<td><textarea rows="3" cols="30" name="CONTENT" id="CONTENT" onclick="fn_content()" onkeyup="fn_content()" onselect="fn_content()"></textarea>
+						<span id="cnt"></span><a class="button" href="javascript:fn_add();">등록</a>
 						</td>
 							
 					</tr>

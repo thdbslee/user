@@ -65,7 +65,8 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="PHONE">PHONE</label>
-                                                      	<input class="form-control py-4" id="PHONE" name="PHONE" type="text" placeholder="번호입력"/>
+                                                      	<input class="form-control py-4" id="PHONE" name="PHONE" type="text" placeholder="번호입력"
+                                                      	onKeyup="this.value=this.value.replace(/[^0-9]/g,'')"/>
                                                     </div>
                                                 </div>
                                                   <div class="col-md-6">

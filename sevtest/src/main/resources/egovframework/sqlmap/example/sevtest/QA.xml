@@ -53,6 +53,7 @@
 	,CONTENT
 	,INSERT_DATE
 	,ID
+	,NAME
 	FROM QA 
 	WHERE INX = #INX#
 </select>

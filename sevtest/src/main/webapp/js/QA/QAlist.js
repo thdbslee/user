@@ -24,11 +24,13 @@ function fn_edit(){
 	window.open("/qa_edit.do?INX="+INX,'edit','width=300px; height=300px;');
 }
 function fn_delete(){
-	
-	console.log($("input[name='INX']:checked").length);
 	if($("input[name='INX']:checked").length == 0){
 		alert("삭제할 게시물을 선택하세요");
 		return ;
+	}
+	if($("input[name='INX']:checked").length > 1){
+		alert("삭제할 게시물 하나만 선택하세요");
+		return false;
 	}
 	if(!confirm('선택한 게시물 삭제하시겠습니까 ?')){
 		return;

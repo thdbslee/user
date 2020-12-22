@@ -2,13 +2,21 @@ function fn_onLoad(){
 	fn_setDefault();
 }
 function fn_setDefault(){
-	console.log("editsetDefault");
+	fn_content();
 }
+
 function fn_update(){
-	console.log("update");
 	if(!$("#TITLE").val()){
 		alert("제목을입력하세요");
 		return;
+	}
+	if(!$("#CONTENT").val()){
+		alert("내용을입력하세요");
+		return false;
+	}
+	if($("#CONTENT").val().length > 200){
+		alert("200자 미만으로 입력하세요");
+		return false;
 	}
 	var frm = $("#frm").serialize();
 	var frmData = decodeURIComponent(frm);
@@ -28,6 +36,10 @@ function fn_update(){
 			}
 		}
 	});
+}
+function fn_content(){
+	var content = $("#CONTENT").val();
+	$("#cnt").html('<strong>'+content.length+'<strong>' +"/ 200");
 }
 $(document).ready(function(){
 	try{
